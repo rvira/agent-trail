@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+dist/
+build/
+
+# Environment & secrets
+.env
+.env.*
+
+# Data & outputs
+data/
+outputs/
+*.parquet
+*.csv
+*.jsonl.gz
+*.json.gz
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+*.Rds
+
+# OS
+.DS_Store

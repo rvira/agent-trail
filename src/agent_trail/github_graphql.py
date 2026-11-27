@@ -59,7 +59,6 @@ class GitHubGraphQLClient:
         if not self.token:
             raise ValueError("GITHUB_TOKEN must be provided or set in the environment.")
         self._client = httpx.Client(
-            base_url=GITHUB_GRAPHQL_URL,
             headers={
                 "Authorization": f"Bearer {self.token}",
                 "Accept": "application/vnd.github+json",
@@ -70,7 +69,7 @@ class GitHubGraphQLClient:
     def query(self, query_str: str, variables: dict[str, Any] | None = None) -> dict[str, Any]:
         """Execute a GraphQL query and return the parsed JSON data payload."""
         response = self._client.post(
-            "",
+            GITHUB_GRAPHQL_URL,
             json={"query": query_str, "variables": variables or {}},
         )
         response.raise_for_status()

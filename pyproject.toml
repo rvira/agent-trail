@@ -5,15 +5,23 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "agent-trail"
 version = "0.1.0"
-description = "Measuring AI coding agent adoption across open source repositories and GitHub events"
+description = "Measuring AI coding agent adoption across open source repositories and GitHub events ($0-cost local pipeline)"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "duckdb>=1.1.0",
     "httpx>=0.27.0",
+    "matplotlib>=3.9.0",
+    "numpy>=2.0.0",
+    "pandas>=2.2.0",
+    "pyarrow>=17.0.0",
+    "seaborn>=0.13.0",
+    "tenacity>=9.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
+    "jupyter>=1.1.0",
     "pytest>=8.0.0",
 ]
 

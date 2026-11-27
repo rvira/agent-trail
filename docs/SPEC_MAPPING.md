@@ -56,7 +56,17 @@ It works in five stages:
 
 ---
 
-## 3. Recommended Next Steps (Week 1 Pilot Path)
+## 3. $0-Cost Architecture Substitutions
+
+To run the entire pipeline at **$0 cost** with zero paid cloud billing:
+- **GH Archive (`data.gharchive.org`)** replaces BigQuery `githubarchive` (free hourly `.json.gz` files streamed locally).
+- **`api.deps.dev/v3` + PyPI/npm JSON APIs** replace BigQuery `deps_dev_v1` and `pypi.file_downloads`.
+- **Local DuckDB + Parquet** replace AWS S3, ClickHouse, and Google Cloud Dataflow.
+- **Local `Rscript` + `tectonic`** run econometrics and LaTeX compilation locally (with optional free university Slurm cluster execution).
+
+---
+
+## 4. Recommended Next Steps (Week 1 Pilot Path)
 
 1. **Close signal gaps:** Add `GEMINI.md` and bot PR author detection (`copilot-swe-agent[bot]`, `devin-ai-integration[bot]`, `claude[bot]`) to `signals.py` + tests.
 2. **Add BigQuery + `deps.dev` sampler:** Query `bigquery-public-data.deps_dev_v1` for 500 pilot repos (250 PyPI + 250 npm, ≥50 stars, active ≥12 months before Jan 2024) and extract their `githubarchive` events.

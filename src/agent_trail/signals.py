@@ -13,9 +13,20 @@ AGENT_CONFIG_PATHS: dict[str, str] = {
     ".cursor/rules": "cursor",
     "AGENTS.md": "codex",
     "CODEX.md": "codex",
+    "GEMINI.md": "gemini_cli",
     ".github/copilot-instructions.md": "copilot",
     ".windsurfrules": "windsurf",
     ".clinerules": "cline",
+}
+
+# Known AI coding agent bot logins on GitHub PRs/commits
+BOT_AUTHOR_LOGINS: dict[str, str] = {
+    "copilot-swe-agent[bot]": "copilot",
+    "github-copilot[bot]": "copilot",
+    "devin-ai-integration[bot]": "devin",
+    "claude[bot]": "claude_code",
+    "cursor[bot]": "cursor",
+    "codex[bot]": "codex",
 }
 
 # Patterns in commit messages or PR bodies indicating agent-authored/co-authored work
@@ -67,3 +78,14 @@ def detect_commit_signals(message: str) -> list[AgentSignal]:
                 AgentSignal(agent=agent, source="commit_trailer", marker=match.group(0))
             )
     return signals
+
+
+def detect_bot_author(login: str | None) -> AgentSignal | None:
+    """Identify an AI coding agent from a GitHub bot login."""
+    if not login:
+        return None
+    normalized = login.strip().lower()
+    agent = BOT_AUTHOR_LOGINS.get(normalized)
+    if not agent:
+        return None
+    return AgentSignal(agent=agent, source="bot_author", marker=normalized)

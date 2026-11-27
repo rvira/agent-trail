@@ -6,13 +6,14 @@ from agent_trail.package_linker import (
     extract_pypi_repo,
     normalize_github_repo,
 )
-from agent_trail.signals import detect_commit_signals, detect_config_signals
+from agent_trail.signals import detect_bot_author, detect_commit_signals, detect_config_signals
 
 
 def test_detect_config_signals() -> None:
     paths = [
         "README.md",
         "CLAUDE.md",
+        "GEMINI.md",
         ".cursor/rules/python.mdc",
         ".github/copilot-instructions.md",
         "src/main.py",
@@ -20,9 +21,18 @@ def test_detect_config_signals() -> None:
     signals = detect_config_signals(paths)
     agents = {(s.agent, s.marker) for s in signals}
     assert ("claude_code", "CLAUDE.md") in agents
+    assert ("gemini_cli", "GEMINI.md") in agents
     assert ("cursor", ".cursor/rules/python.mdc") in agents
     assert ("copilot", ".github/copilot-instructions.md") in agents
-    assert len(agents) == 3
+    assert len(agents) == 4
+
+
+def test_detect_bot_author() -> None:
+    sig = detect_bot_author("copilot-swe-agent[bot]")
+    assert sig is not None
+    assert sig.agent == "copilot"
+    assert sig.source == "bot_author"
+    assert detect_bot_author("octocat") is None
 
 
 def test_detect_commit_signals() -> None:
